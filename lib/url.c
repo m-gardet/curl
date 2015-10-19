@@ -111,6 +111,7 @@ int curl_win32_idn_to_ascii(const char *in, char **out);
 #include "telnet.h"
 #include "tftp.h"
 #include "http.h"
+#include "http2.h"
 #include "file.h"
 #include "curl_ldap.h"
 #include "ssh.h"
@@ -616,6 +617,8 @@ CURLcode Curl_init_userdefined(struct UserDefined *set)
 
   set->expect_100_timeout = 1000L; /* Wait for a second by default. */
   set->sep_headers = TRUE; /* separated header lists by default */
+
+  Curl_http2_init_userset(set);
   return result;
 }
 
@@ -673,6 +676,8 @@ CURLcode Curl_open(struct SessionHandle **curl)
     data->wildcard.filelist = NULL;
     data->set.fnmatch = ZERO_NULL;
     data->set.maxconnects = DEFAULT_CONNCACHE_SIZE; /* for easy handles */
+
+    Curl_http2_init_state(&data->state);
   }
 
   if(result) {

@@ -1315,6 +1315,10 @@ struct UrlState {
 
   curl_read_callback fread_func; /* read callback/function */
   void *in;                      /* CURLOPT_READDATA */
+
+  struct SessionHandle *stream_depends_on;
+  bool stream_depends_e; /* set or don't set the Exclusive bit */
+  int stream_prio;
 };
 
 
